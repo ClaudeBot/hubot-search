@@ -41,11 +41,10 @@ The Google Custom Search command listener will not be registered if neither `GOO
 
 #### Create Google API Key
 
-1. Visit https://console.developers.google.com/apis/credentials
-2. Create a new API key (select _"Server key"_ for the type)
-3. You may be required to create a new project, just follow the instructions
-4. Return to the _"Overview"_, and locate _"Custom Search API"_
-5. Enable _"Custom Search API"_
+1. Create a new API key: https://console.developers.google.com/apis/credentials
+2. Select _"Server key"_ for the type. You may be required to create a new project, just follow the instructions
+3. Return to the _"Overview"_, and locate _"Custom Search API"_
+4. Enable _"Custom Search API"_
 
 #### Create Google Custom Search Engine
 
@@ -53,14 +52,25 @@ The Google Custom Search command listener will not be registered if neither `GOO
 2. To search all websites, enter any web URL in (1), and complete the creation
 3. Edit your newly created search engine
 4. Set _"Sites to search"_ to _"Search the entire web but emphasize included sites"_, and delete the sites you have previously added
-5. Save
+5. Save, and export the variables:
+
+    ```bash
+    export GOOGLE_API_KEY="API KEY HERE"
+    export GOOGLE_CUSTOM_SEARCH="ENGINE ID HERE"
+    ```
 
 ### Bing Search API
 
 The Bing Search API command listener will not be registered if `BING_SEARCH_API_KEY` is not defined.
 
-1. [Subscribe][bse] for _"Bing Search API – Web Results Only"_
-2. [Obtain][bsekey] the primary account key (located at the top of the page under _"Show"_)
+1. Visit https://datamarket.azure.com/dataset/bing/searchweb
+2. Subscribe for a _"Bing Search API – Web Results Only"_ package / plan (free works fine)
+3. [Obtain][bsekey] the primary account key (located at the top of the page under _"Show"_)
+4. Export the API key:
+
+    ```bash
+    export BING_SEARCH_API_KEY="API KEY HERE"
+    ```
 
 
 ## Commands

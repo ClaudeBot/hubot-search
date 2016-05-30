@@ -1,6 +1,6 @@
 {
   "name": "hubot-search",
-  "description": "An extendable Hubot script for querying Google Custom Search.",
+  "description": "An extendable Hubot script for querying several search engine services: Google Custom Search, and Bing Search API.",
   "version": "0.0.2",
   "author": "Ian Lai <os@fyianlai.com>",
   "license": "MIT",

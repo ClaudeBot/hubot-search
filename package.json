@@ -1,7 +1,7 @@
 {
   "name": "hubot-search",
-  "description": "TBA",
-  "version": "0.0.1",
+  "description": "An extendable Hubot script for querying Google Custom Search.",
+  "version": "0.0.2",
   "author": "Ian Lai <os@fyianlai.com>",
   "license": "MIT",
   "keywords": "hubot, hubot-scripts, search engine, google, duckduckgo, bing, web search",

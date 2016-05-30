@@ -75,6 +75,7 @@ class GoogleSearch extends ISearch
         results = ""
         for result, i in data.items
             results += "#{i+1}. #{result.title}: #{result.snippet} (#{result.link})\n"
+        results += "About #{data.searchInformation.formattedTotalResults} results (#{data.searchInformation.formattedSearchTime} seconds)."
         results
 
 class BingSearch extends ISearch

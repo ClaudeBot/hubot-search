@@ -8,6 +8,8 @@ describe "search", ->
     beforeEach ->
         @robot =
             respond: sinon.spy()
+            logger:
+                warning: sinon.spy()
 
         require("../src/search")(@robot)
 

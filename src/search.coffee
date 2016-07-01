@@ -4,11 +4,14 @@
 #   Currently supports:
 #       - Google Custom Search
 #       - Bing Search API
+#           - Azure Marketplace - Bing Search API v2
+#           - Microsoft Cognitive Services - Bing Search API v5
 #
 # Configuration:
 #   GOOGLE_API_KEY
 #   GOOGLE_CUSTOM_SEARCH
 #   BING_SEARCH_API_KEY
+#   USE_BING_V5
 #
 # Commands:
 #   hubot <search|google> <query> - Queries Google Custom Search for <query>, and returns the first 5 results
@@ -20,6 +23,7 @@
 GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
 GOOGLE_CUSTOM_SEARCH = process.env.GOOGLE_CUSTOM_SEARCH
 BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY
+USE_BING_V5 = process.env.USE_BING_V5
 
 DEF_SERVER_ERROR = "I'm unable to process your request at this time due to a server error. Please try again later."
 
@@ -55,6 +59,7 @@ class ISearch
     _format: (data) ->
         @robot.logger.error "_format is not implemented"
 
+# Google Custom Search
 class GoogleSearch extends ISearch
     _search: (query, cb) ->
         @robot.logger.info "hubot-search: using Google Custom Search"
@@ -78,16 +83,17 @@ class GoogleSearch extends ISearch
         results += "About #{data.searchInformation.formattedTotalResults} results (#{data.searchInformation.formattedSearchTime} seconds)."
         results
 
+# Azure Marketplace - Bing Search API v2
 class BingSearch extends ISearch
     _search: (query, cb) ->
-        @robot.logger.info "hubot-search: using Bing Search API (Web Results Only)"
+        @robot.logger.info "hubot-search: using Azure Marketplace - Bing Search API v2 (Web Results Only)"
         opts =
             auth: "#{BING_SEARCH_API_KEY}:#{BING_SEARCH_API_KEY}"
         params =
             $format: "json"
             $top: 5
             Query: "'#{query}'"
-        # @robot.logger.debug "hubot-search: Bing Search API params : #{params}"
+        # @robot.logger.debug "hubot-search: Bing Search API v2 params : #{params}"
         @robot.http("https://api.datamarket.azure.com/Bing/SearchWeb/v1/Web", opts)
             .header("content-type", "application/json")
             .query(params)
@@ -100,6 +106,28 @@ class BingSearch extends ISearch
         results = ""
         for result, i in data.d.results
             results += "#{i+1}. #{result.Title}: #{result.Description} (#{result.Url})\n"
+        results
+
+# Microsoft Cognitive Services - Bing Search API v5
+class BingSearchV5 extends ISearch
+    _search: (query, cb) ->
+        @robot.logger.info "hubot-search: using Microsoft Cognitive Services - Bing Search API v5 (Web only)"
+        params =
+            q: query
+            count: 5
+        @robot.http("https://api.cognitive.microsoft.com/bing/v5.0/search")
+            .header("content-type", "application/json")
+            .header("Ocp-Apim-Subscription-Key", BING_SEARCH_API_KEY)
+            .query(params)
+            .get() cb
+
+    _hasResults: (data) ->
+        data.webPages?.totalEstimatedMatches > 0
+
+    _format: (data) ->
+        results = ""
+        for result, i in data.webPages.value
+            results += "#{i+1}. #{result.name}: #{result.snippet} (#{result.url})\n"
         results
 
 module.exports = (robot) ->
@@ -116,6 +144,9 @@ module.exports = (robot) ->
     # Listener: Bing Search API
     if BING_SEARCH_API_KEY?
         bing = new BingSearch robot
+        # Use Bing Search API v5 if enabled, otherwise use legacy v2
+        if USE_BING_V5?
+            bing = new BingSearchV5 robot
         robot.respond /bing (.+)/i, id: "search.bing", (res) =>
             q = res.match[1]
             bing.search q, (results) =>

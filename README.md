@@ -44,6 +44,7 @@ Variable | Default | Description
 `GOOGLE_API_KEY` | N/A | A unique developer [API key](https://developers.google.com/custom-search/json-api/v1/introduction#identify_your_application_to_google_with_api_key) is required to use Google's Custom Search API
 `GOOGLE_CUSTOM_SEARCH` | N/A | The [Google Custom Search][googlesearch] engine [identifier](https://cse.google.com/cse/all) (the `cx` portion of the custom search engine URL)
 `BING_SEARCH_API_KEY` | N/A | The [API key][cognitivebingkey] for performing [Bing Search API][cognitivebing] queries
+`MAX_SEARCH_RESULTS` | 5 | The maximum number of search results to show
 
 ### [Google Custom Search][googlesearch]
 
@@ -101,8 +102,8 @@ The Bing Search API command listener will not be registered if `BING_SEARCH_API_
 
 Command | Listener ID | Description
 --- | --- | ---
-hubot `<search|google>` `query` | `search.google` | Queries Google Custom Search for `query`, and returns the first 5 results
-hubot bing `query` | `search.bing` | Queries Bing Search API for `query`, and returns the first 5 results
+hubot `<search|google>` `query` | `search.google` | Queries Google Custom Search for `query`, and returns the first `MAX_SEARCH_RESULTS` results
+hubot bing `query` | `search.bing` | Queries Bing Search API for `query`, and returns the first `MAX_SEARCH_RESULTS` results
 
 
 ## Sample Interaction

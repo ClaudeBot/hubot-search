@@ -1,6 +1,6 @@
 # hubot-search
 
-[![Build Status](https://travis-ci.org/ClaudeBot/hubot-search.svg)](https://travis-ci.org/ClaudeBot/hubot-search)
+[![Build Status](https://travis-ci.org/mrcaron/hubot-search.svg)](https://travis-ci.org/ClaudeBot/hubot-search)
 [![devDependency Status](https://david-dm.org/ClaudeBot/hubot-search/dev-status.svg)](https://david-dm.org/ClaudeBot/hubot-search#info=devDependencies)
 
 An extendable Hubot script for querying several search engine services: [Google Custom Search][googlesearch], [Azure Marketplace - Bing Search API v2][azurebing], and [Microsoft Cognitive Services - Bing Search API v5][cognitivebing].

@@ -24,10 +24,7 @@ GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
 GOOGLE_CUSTOM_SEARCH = process.env.GOOGLE_CUSTOM_SEARCH
 BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY
 USE_BING_V5 = process.env.USE_BING_V5
-MAX_RESULTS = process.env.MAX_SEARCH_RESULTS
-
-# Default is 5
-MAX_RESULTS ?= 5
+MAX_RESULTS = process.env.MAX_SEARCH_RESULTS ? 5
 
 DEF_SERVER_ERROR = "I'm unable to process your request at this time due to a server error. Please try again later."
 

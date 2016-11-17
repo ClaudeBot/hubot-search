@@ -24,6 +24,10 @@ GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
 GOOGLE_CUSTOM_SEARCH = process.env.GOOGLE_CUSTOM_SEARCH
 BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY
 USE_BING_V5 = process.env.USE_BING_V5
+MAX_RESULTS = process.env.MAX_SEARCH_RESULTS
+
+# Default is 5
+MAX_RESULTS ?= 5
 
 DEF_SERVER_ERROR = "I'm unable to process your request at this time due to a server error. Please try again later."
 
@@ -66,7 +70,7 @@ class GoogleSearch extends ISearch
         params =
             key: GOOGLE_API_KEY
             cx: GOOGLE_CUSTOM_SEARCH
-            num: 5
+            num: MAX_RESULTS
             q: query
         @robot.http("https://www.googleapis.com/customsearch/v1")
             .header("content-type", "application/json")
@@ -91,7 +95,7 @@ class BingSearch extends ISearch
             auth: "#{BING_SEARCH_API_KEY}:#{BING_SEARCH_API_KEY}"
         params =
             $format: "json"
-            $top: 5
+            $top: MAX_RESULTS
             Query: "'#{query}'"
         # @robot.logger.debug "hubot-search: Bing Search API v2 params : #{params}"
         @robot.http("https://api.datamarket.azure.com/Bing/SearchWeb/v1/Web", opts)
@@ -114,7 +118,7 @@ class BingSearchV5 extends ISearch
         @robot.logger.info "hubot-search: using Microsoft Cognitive Services - Bing Search API v5 (Web only)"
         params =
             q: query
-            count: 5
+            count: MAX_RESULTS
         @robot.http("https://api.cognitive.microsoft.com/bing/v5.0/search")
             .header("content-type", "application/json")
             .header("Ocp-Apim-Subscription-Key", BING_SEARCH_API_KEY)
